@@ -8,12 +8,9 @@ ENV GO111MODULE=on \
     GOOS=linux \
     GOARCH=amd64
 
+ARG GIT_REPOSITORY_URL
 
-RUN apt-get update && \
-    apt-get install -y curl && \
-    apt-get install -y git && \
-    apt-get install -y awscli && \
-    apt-get install -y docker.io
+RUN git clone "$GIT_REPOSITORY_URL" /home/app
 
 WORKDIR /home/app
 
@@ -22,7 +19,8 @@ COPY . /home/app/
 RUN go mod tidy
 RUN go mod vendor
 
-RUN chmod +x main.sh
-RUN chmod +x main.go
 
+EXPOSE 8080
+
+# Command to run the executable
 ENTRYPOINT [ "/home/app/main.go" ]

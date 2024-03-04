@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Launch",
+        "type": "go",
+        "request": "launch",
+        "mode": "auto",
+        "program": "${workspaceFolder}/main.go", // Specify the full path to your main.go file
+        "env": {
+            "GIT_REPOSITORY_URL":"https://github.com/czarnikhil/testing-cicd",
+            "LANGUAGE":"golang",
+            "AWS_ACCESS_KEY_ID":"AKIARFWTAPPBTOBN2QMN",
+            "AWS_SECRET_ACCESS_KEY":"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",
+        },
+        "args": ["dev.env.yaml"],
+        "showLog": true
+      }
+    ]
+  }
+  

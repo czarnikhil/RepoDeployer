@@ -1,28 +1,28 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
-	"path/filepath"
 
 	utils "github.com/czarnikhil/RepoDeployer.git/internal"
 )
 
 func main() {
-	projectID := os.Getenv("PROJECT_ID")
-	bucketName := os.Getenv("BUCKET_NAME")
-	outDirPath := filepath.Join(".", "output")
-
-	if err := utils.BuildGoProject(outDirPath); err != nil {
-		log.Fatalf("Error building Go project: %v", err)
+	programmingLanguage := os.Getenv("LANGUAGE")
+	gitURL := os.Getenv("GIT_REPOSITORY_URL")
+	repoName, err := utils.GetRepoName(gitURL)
+	if err != nil {
+		fmt.Errorf("Unable to parse git url :%s", gitURL)
+	}
+	switch programmingLanguage {
+	case "golang":
+		if err := utils.BuildProject(repoName, gitURL); err != nil {
+			log.Fatalf("Error building Go project: %v", err)
+		}
+		if err := utils.UploadImage(repoName); err != nil {
+			log.Fatalf("Unable to upload image to ECR: %v", err)
+		}
 	}
 
-	binaryPath := filepath.Join(outDirPath, "app")
-	if err := utils.CheckBinaryExists(binaryPath); err != nil {
-		log.Fatalf("Binary file does not exist: %v", err)
-	}
-
-	if err := utils.UploadToS3(binaryPath, projectID, bucketName); err != nil {
-		log.Fatalf("Error uploading binary file to S3: %v", err)
-	}
 }

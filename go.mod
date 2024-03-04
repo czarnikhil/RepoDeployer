@@ -2,7 +2,7 @@ module github.com/czarnikhil/RepoDeployer.git
 
 go 1.21.5
 
-require github.com/aws/aws-sdk-go v1.50.15
+require github.com/aws/aws-sdk-go v1.50.19
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
